@@ -37,6 +37,7 @@
             padding: 15px;
             background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.2) 0%, rgba(13, 15, 20, 0) 70%);
             border-bottom: 1px solid var(--border-gold);
+            position: relative;
         }
 
         .logo-title {
@@ -47,47 +48,34 @@
             margin-top: 8px;
         }
 
+        /* زر دخول الأدمن المخفي بركن الصفحة */
+        .secret-admin-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: transparent;
+            border: 1px solid var(--border-gold);
+            color: var(--gold);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
         .container {
             max-width: 800px;
             margin: 15px auto;
             padding: 0 15px;
         }
 
-        /* شريط التحكم مع السهم */
-        .admin-toggle-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #12151d;
-            border: 1.5px solid var(--gold);
-            border-radius: 10px;
-            padding: 12px 18px;
-            margin-bottom: 15px;
-            cursor: pointer;
-        }
-
-        .admin-toggle-title {
-            color: var(--gold);
-            font-size: 1rem;
-            font-weight: 700;
-            font-family: 'Noto Kufi Arabic', sans-serif;
-        }
-
-        .toggle-arrow {
-            color: var(--gold);
-            font-size: 1.1rem;
-            font-weight: bold;
-            transition: transform 0.3s ease;
-        }
-
-        /* صندوق الإضافة والتعديل */
+        /* صندوق الإضافة والتعديل (محمي تماماً) */
         .admin-box {
             background: #12151d;
             border: 1.5px solid var(--gold);
             border-radius: 12px;
             padding: 15px;
             margin-bottom: 20px;
-            transition: all 0.3s ease;
+            display: none; /* مخفي افتراضياً عن كل الناس */
         }
 
         .form-group {
@@ -142,7 +130,7 @@
             font-weight: 600;
         }
 
-        /* الأزرار والقوائم */
+        /* القوائم والبطاقات */
         .grid {
             display: flex;
             flex-direction: column;
@@ -160,12 +148,12 @@
             text-align: right;
             width: 100%;
             color: #fff;
+            cursor: pointer;
         }
 
         .card-main-info {
             display: flex;
             align-items: center;
-            cursor: pointer;
             flex-grow: 1;
         }
 
@@ -182,8 +170,9 @@
             font-weight: 600;
         }
 
+        /* أزرار التعديل والحذف تظهر حصرياً لك عندما تسجل الدخول بلوحة التحكم */
         .card-actions {
-            display: flex;
+            display: none; /* مخفية عن الزوار تماماً */
             gap: 8px;
             align-items: center;
         }
@@ -222,8 +211,6 @@
             border: 1px solid var(--border-gold);
             font-weight: bold;
             flex-shrink: 0;
-            cursor: pointer;
-            margin-right: 8px;
         }
 
         .lyrics-box {
@@ -276,6 +263,8 @@
 
     <header>
         <div class="logo-title">ديوان أوتاري</div>
+        <!-- زر دخول المشرف السري بأعلى الصفحة -->
+        <button class="secret-admin-btn" onclick="adminLogin()">🔑 دخول المشرف</button>
     </header>
 
     <div class="container">
@@ -284,14 +273,9 @@
             <span>الرئيسية</span>
         </div>
 
-        <!-- شريط التحكم مع السهم -->
-        <div class="admin-toggle-bar" id="toggle-bar" onclick="toggleAdminBox()">
-            <span class="admin-toggle-title" id="form-mode-title">⚙️ لوحة الإضافة للديوان</span>
-            <span class="toggle-arrow" id="toggle-arrow-icon">▲</span>
-        </div>
-
-        <!-- صندوق الإضافة والتعديل -->
+        <!-- صندوق الإضافة والتعديل (يظهر فقط بعد إدخال كلمة السر الخاصة بك) -->
         <div class="admin-box" id="admin-box">
+            <div style="color: var(--gold); font-weight: 700; margin-bottom: 10px;" id="form-mode-title">⚙️ لوحة الإضافة للديوان</div>
             <form onsubmit="saveWork(event)">
                 <input type="hidden" id="edit-index" value="-1">
                 <div class="form-group">
@@ -315,7 +299,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>عنوان العمل (اسم الأغنية أو الموشح):</label>
+                    <label>عنوان العمل:</label>
                     <input type="text" id="inp-title" required placeholder="مثال: يا مال الشام">
                 </div>
                 <div class="form-group">
@@ -329,53 +313,53 @@
         <!-- القائمة الرئيسية -->
         <div id="screen-home" class="grid">
             <button class="card" onclick="openMaqam('saba')">
-                <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+                <div class="card-main-info">
                     <div>
                         <div class="card-title">مقام الصبا</div>
                         <div class="card-desc">نغم الشجن والعاطفة</div>
                     </div>
-                    <div class="arrow">←</div>
                 </div>
+                <div class="arrow">←</div>
             </button>
 
             <button class="card" onclick="openMaqam('nahawand')">
-                <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+                <div class="card-main-info">
                     <div>
                         <div class="card-title">مقام النهاوند</div>
                         <div class="card-desc">نغم الرقة والشوق</div>
                     </div>
-                    <div class="arrow">←</div>
                 </div>
+                <div class="arrow">←</div>
             </button>
 
             <button class="card" onclick="openMaqam('ajam')">
-                <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+                <div class="card-main-info">
                     <div>
                         <div class="card-title">مقام العجم</div>
                         <div class="card-desc">نغم البهجة والفرح</div>
                     </div>
-                    <div class="arrow">←</div>
                 </div>
+                <div class="arrow">←</div>
             </button>
 
             <button class="card" onclick="openMaqam('bayati')">
-                <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+                <div class="card-main-info">
                     <div>
                         <div class="card-title">مقام البيات</div>
                         <div class="card-desc">أصل التراث الشعبي</div>
                     </div>
-                    <div class="arrow">←</div>
                 </div>
+                <div class="arrow">←</div>
             </button>
 
             <button class="card" onclick="openMaqam('dabkat')">
-                <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+                <div class="card-main-info">
                     <div>
                         <div class="card-title">🔥 دبكات وأهازيج</div>
                         <div class="card-desc">أهازيج شعبية وعراضات</div>
                     </div>
-                    <div class="arrow">←</div>
                 </div>
+                <div class="arrow">←</div>
             </button>
         </div>
 
@@ -395,7 +379,8 @@
     </div>
 
     <script>
-        let database = {
+        // قاعدة البيانات المحفوظة محلياً
+        let database = JSON.parse(localStorage.getItem('awtari_db')) || {
             saba: { name: "مقام الصبا", items: [ { type: "موشح", title: "غضي جفونك يا عيون", lyrics: "غُضِّي جُفُونَكِ يَا عُيُونُ .. وَكَفْكِفِي دَمْعَ الهَوَانْ" } ] },
             nahawand: { name: "مقام النهاوند", items: [ { type: "موشح", title: "يا بهجة الروح", lyrics: "يَا بَهْجَةَ الرُّوحِ جُودِي .. وَأَنْعِمِي بِالوِصَالِ" } ] },
             ajam: { name: "مقام العجم", items: [ { type: "طقطوقة", title: "طلعت يا محلا نورها", lyrics: "طَلَعَتْ يَا مَحْلَا نُورْهَا .. شَمْسِ الشُّمُوسَة" } ] },
@@ -404,21 +389,27 @@
         };
 
         let currentMaqam = null;
+        let isAdmin = false;
 
-        function toggleAdminBox() {
-            let box = document.getElementById('admin-box');
-            let arrow = document.getElementById('toggle-arrow-icon');
-            if (box.classList.contains('hidden')) {
-                box.classList.remove('hidden');
-                arrow.innerText = "▲";
-            } else {
-                box.classList.add('hidden');
-                arrow.innerText = "▼";
+        // كلمة المرور الجديدة الخاصة بك
+        const ADMIN_PASS = "alfares1999"; 
+
+        function adminLogin() {
+            let pass = prompt("أدخل كلمة مرور المشرف:");
+            if(pass === ADMIN_PASS) {
+                isAdmin = true;
+                document.getElementById('admin-box').style.display = 'block';
+                alert("✓ أهلاً بك يا أبو الفارس، تم تفعيل وضع المشرف بنجاح!");
+                if(currentMaqam) openMaqam(currentMaqam);
+            } else if(pass !== null) {
+                alert("❌ كلمة المرور غير صحيحة!");
             }
         }
 
         function saveWork(e) {
             e.preventDefault();
+            if(!isAdmin) return;
+
             let mKey = document.getElementById('inp-maqam').value;
             let type = document.getElementById('inp-type').value;
             let title = document.getElementById('inp-title').value;
@@ -429,7 +420,7 @@
 
             if(editIdx === -1) {
                 database[mKey].items.push({ type: type, title: title, lyrics: lyrics });
-                alert("✓ تم إضافة العمل بنجاح!");
+                alert("✓ تم إضافة العمل بنجاح للديوان!");
             } else {
                 database[mKey].items[editIdx] = { type: type, title: title, lyrics: lyrics };
                 document.getElementById('edit-index').value = "-1";
@@ -437,6 +428,8 @@
                 document.getElementById('submit-btn-text').innerText = "حفظ وإضافة ✓";
                 alert("✓ تم تعديل العمل بنجاح!");
             }
+
+            localStorage.setItem('awtari_db', JSON.stringify(database));
 
             document.getElementById('inp-title').value = '';
             document.getElementById('inp-lyrics').value = '';
@@ -446,6 +439,7 @@
 
         function editWork(key, idx, event) {
             event.stopPropagation();
+            if(!isAdmin) return;
             let item = database[key].items[idx];
             
             document.getElementById('inp-maqam').value = key;
@@ -456,19 +450,17 @@
 
             document.getElementById('form-mode-title').innerText = "✏️ تعديل العمل الحالي";
             document.getElementById('submit-btn-text').innerText = "حفظ التعديلات ✓";
-
-            let box = document.getElementById('admin-box');
-            let arrow = document.getElementById('toggle-arrow-icon');
-            box.classList.remove('hidden');
-            arrow.innerText = "▲";
+            document.getElementById('admin-box').style.display = 'block';
 
             showHome();
         }
 
         function deleteWork(key, idx, event) {
             event.stopPropagation();
-            if(confirm("هل أنت متأكد من حذف هذا العمل؟")) {
+            if(!isAdmin) return;
+            if(confirm("هل أنت متأكد من حذف هذا العمل من الديوان؟")) {
                 database[key].items.splice(idx, 1);
+                localStorage.setItem('awtari_db', JSON.stringify(database));
                 alert("🗑️ تم الحذف بنجاح!");
                 openMaqam(key);
             }
@@ -483,18 +475,18 @@
             if(maqam.items.length > 0) {
                 maqam.items.forEach((item, idx) => {
                     html += `
-                        <div class="card">
-                            <div class="card-main-info" onclick="openLyrics('${key}', ${idx})">
+                        <div class="card" onclick="openLyrics('${key}', ${idx})">
+                            <div class="card-main-info">
                                 <div>
                                     <div class="card-title">${item.title}</div>
                                     <div class="card-desc">[ ${item.type} ]</div>
                                 </div>
                             </div>
-                            <div class="card-actions">
+                            <div class="card-actions" style="display: ${isAdmin ? 'flex' : 'none'};">
                                 <button class="action-btn edit-btn" onclick="editWork('${key}', ${idx}, event)">تعديل</button>
                                 <button class="action-btn delete-btn" onclick="deleteWork('${key}', ${idx}, event)">حذف</button>
-                                <div class="arrow" onclick="openLyrics('${key}', ${idx})">←</div>
                             </div>
+                            <div class="arrow">←</div>
                         </div>
                     `;
                 });
@@ -506,8 +498,6 @@
             document.getElementById('screen-home').classList.add('hidden');
             document.getElementById('screen-waslat').classList.remove('hidden');
             document.getElementById('screen-lyrics').classList.add('hidden');
-            document.getElementById('toggle-bar').classList.add('hidden');
-            document.getElementById('admin-box').classList.add('hidden');
             document.getElementById('breadcrumb').innerHTML = `<span>الرئيسية</span> / <b>${maqam.name}</b>`;
         }
 
@@ -520,8 +510,6 @@
             document.getElementById('screen-home').classList.add('hidden');
             document.getElementById('screen-waslat').classList.add('hidden');
             document.getElementById('screen-lyrics').classList.remove('hidden');
-            document.getElementById('toggle-bar').classList.add('hidden');
-            document.getElementById('admin-box').classList.add('hidden');
         }
 
         function backToWaslat() {
@@ -533,8 +521,6 @@
             document.getElementById('screen-home').classList.remove('hidden');
             document.getElementById('screen-waslat').classList.add('hidden');
             document.getElementById('screen-lyrics').classList.add('hidden');
-            document.getElementById('toggle-bar').classList.remove('hidden');
-            document.getElementById('admin-box').classList.remove('hidden');
             document.getElementById('breadcrumb').innerHTML = `<span>الرئيسية</span>`;
         }
     </script>
