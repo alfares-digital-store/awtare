@@ -528,4 +528,81 @@
                 alert("🗑️ تمت الإزالة من المفضلة.");
             } else {
                 database.favorites.waslat.push(JSON.parse(JSON.stringify(targetWasla)));
+             event.target.classList.add('active');
+                alert("❤️ تمت الإضافة إلى المفضلة بنجاح!");
+            }
+            updateFavCount();
+        }
+
+        function editCurrentWasla() {
+            if (!isAdmin) return;
+            let wasla = database[currentOpenMaqam].waslat[currentWaslaIndex];
             
+            let newTitle = prompt("تعديل الاسم:", wasla.title);
+            let newLyrics = prompt("تعديل الكلمات:", wasla.items[0].lyrics);
+
+            if (newTitle && newLyrics) {
+                wasla.title = newTitle;
+                wasla.items[0].title = newTitle;
+                wasla.items[0].lyrics = newLyrics;
+                
+                renderMaqamat();
+                showWaslaLyrics(currentWaslaIndex);
+                alert("✅ تم التعديل بنجاح!");
+            }
+        }
+
+        function deleteCurrentWasla() {
+            if (!isAdmin) return;
+            if (confirm("⚠️ هل أنت متأكد من الحذف نهائياً؟")) {
+                let deletedWasla = database[currentOpenMaqam].waslat[currentWaslaIndex];
+                database.favorites.waslat = database.favorites.waslat.filter(fav => !(fav.title === deletedWasla.title && fav.items[0].lyrics === deletedWasla.items[0].lyrics));
+                
+                database[currentOpenMaqam].waslat.splice(currentWaslaIndex, 1);
+                renderMaqamat();
+                showWaslatList();
+                updateFavCount();
+                alert("🗑️ تم الحذف بنجاح.");
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('waslatModal').style.display = 'none';
+        }
+
+        function openAddModal() {
+            document.getElementById('addModal').style.display = 'flex';
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').style.display = 'none';
+        }
+
+        function saveNewItem() {
+            let maqamKey = document.getElementById('addMaqamSelect').value;
+            let waslaTitle = document.getElementById('addWaslaName').value;
+            let lyrics = document.getElementById('addItemLyrics').value;
+
+            if (!waslaTitle || !lyrics) {
+                alert("⚠️ يرجى ملء اسم العنصر والكلمات على الأقل.");
+                return;
+            }
+
+            database[maqamKey].waslat.push({
+                title: waslaTitle,
+                items: [{ type: waslaTitle, title: waslaTitle, lyrics: lyrics }]
+            });
+
+            renderMaqamat();
+            closeAddModal();
+            
+            document.getElementById('addWaslaName').value = '';
+            document.getElementById('addItemLyrics').value = '';
+            
+            alert("✅ تمت الإضافة بنجاح إلى الديوان!");
+        }
+
+        window.onload = renderMaqamat;
+    </script>
+</body>
+</html>
