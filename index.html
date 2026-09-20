@@ -21,6 +21,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             margin-bottom: 20px;
             border: 1px solid rgba(212, 175, 55, 0.3);
+            position: relative;
         }
         h1 {
             color: #d4af37;
@@ -29,6 +30,26 @@
         .container {
             max-width: 800px;
             margin: 0 auto;
+        }
+        /* تنسيق زر المفضلة العلوي */
+        .fav-top-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #2b2b2b;
+            color: #e74c3c;
+            border: 1px solid #d4af37;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+            z-index: 10;
+            transition: 0.3s;
+        }
+        .fav-top-btn:hover {
+            background-color: #d4af37;
+            color: #121212;
         }
         .btn-admin {
             background-color: #d4af37;
@@ -162,7 +183,7 @@
             background: #d4af37;
             color: #121212;
         }
-        /* زر القلب الأنيق بجانب كل وصلة */
+        /* تنسيق زر القلب الصفاف بجانب كل وصلة */
         .heart-btn {
             background: #2b2b2b;
             border: 1px solid #d4af37;
@@ -179,6 +200,7 @@
         }
         .heart-btn:hover {
             transform: scale(1.05);
+            color: #e74c3c;
         }
         .lyrics-box {
             background: #121212;
@@ -235,6 +257,9 @@
 <body>
 
     <header>
+        <!-- زر المفضلة العلوي الصغير في أعلى اليسار -->
+        <button class="fav-top-btn" onclick="openFavoritesModal()">❤️ المفضلة (<span id="favCount">0</span>)</button>
+
         <h1>🎵 ديوان أوتاري 🎵</h1>
         <p>المرجع الشامل للمقامات والوصلات الغنائية الأصيلة</p>
         
@@ -252,11 +277,11 @@
         <div class="maqamat-grid" id="maqamatContainer"></div>
     </div>
 
-    <!-- نافذة القائمة الكبيرة للوصلات -->
+    <!-- نافذة القائمة الكبيرة للوصلات والمواويل -->
     <div id="waslatModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <button id="backBtn" class="back-btn" onclick="showWaslatList()">رجوع للوصلات</button>
+                <button id="backBtn" class="back-btn" onclick="showWaslatList()">رجوع للقائمة</button>
                 <h2 id="modalTitle" style="color: #d4af37; margin: 0;"></h2>
                 <button class="close-btn" onclick="closeModal()">إغلاق</button>
             </div>
@@ -265,7 +290,7 @@
             
             <div id="adminActionBtns" class="admin-action-btns">
                 <button class="btn-edit" onclick="editCurrentWasla()">✏️ تعديل الكلمات</button>
-                <button class="btn-delete" onclick="deleteCurrentWasla()">🗑️ حذف الوصلة</button>
+                <button class="btn-delete" onclick="deleteCurrentWasla()">🗑️ حذف العنصر</button>
             </div>
         </div>
     </div>
@@ -274,24 +299,24 @@
     <div id="addModal" class="modal">
         <div class="modal-content" style="height: auto; max-height: 85vh;">
             <div class="modal-header">
-                <h2 style="color: #d4af37; margin: 0;">إضافة وصلة جديدة إلى الديوان</h2>
+                <h2 style="color: #d4af37; margin: 0;">إضافة عنصر جديد إلى الديوان</h2>
                 <button class="close-btn" onclick="closeAddModal()">إغلاق</button>
             </div>
             
             <div class="modal-body">
                 <div class="form-group">
-                    <label>1. المقام أو القائمة:</label>
+                    <label>1. القسم (المقام أو المواويل):</label>
                     <select id="addMaqamSelect"></select>
                 </div>
 
                 <div class="form-group">
-                    <label>2. اسم الوصلة:</label>
-                    <input type="text" id="addWaslaName" placeholder="مثال: الوصلة الأولى، أو وصلة طرب أصيل">
+                    <label>2. الاسم:</label>
+                    <input type="text" id="addWaslaName" placeholder="مثال: موال أعرج سبعاوي، أو وصلة طرب...">
                 </div>
 
                 <div class="form-group">
-                    <label>3. كلمات الوصلة:</label>
-                    <textarea id="addItemLyrics" rows="6" placeholder="اكتب كلمات الموشح أو الأغنية هنا..."></textarea>
+                    <label>3. الكلمات:</label>
+                    <textarea id="addItemLyrics" rows="6" placeholder="اكتب الكلمات هنا..."></textarea>
                 </div>
 
                 <button class="btn-admin" style="width: 100%; padding: 12px; margin-top: 10px;" onclick="saveNewItem()">حفظ الإضافة في الديوان</button>
@@ -322,9 +347,15 @@
             hijaz: { name: "مقام الحجاز", waslat: [] },
             rast: { name: "مقام الرصد", waslat: [] },
             kurd: { name: "مقام الكرد", waslat: [] },
+            mawamil: { 
+                name: "🎵 المواويل السبعاوية", 
+                waslat: [
+                    { title: "موال أُلفي", items: [{ type: "موال", title: "يا من هواه أعزه وأذلني", lyrics: "يَا مَنْ هَوَاهُ أَعَزَّهُ وَأَذَلَّنِي .. كَيْفَ السَّبِيلُ إِلَى وِصَالِكَ دُلَّنِي" }] }
+                ]
+            },
             dabkat: { name: "دبكات وأهازيج", waslat: [] },
             qasaid: { name: "قصائد", waslat: [] },
-            favorites: { name: "❤️ المفضلة", waslat: [] } // قائمة المفضلة تعمل في الخلفية
+            favorites: { name: "❤️ المفضلة", waslat: [] }
         };
 
         let isAdmin = false;
@@ -336,7 +367,6 @@
             container.innerHTML = '';
             
             for (let key in database) {
-                // لا نعرض بطاقة المفضلة على الصفحة الرئيسية
                 if (key === 'favorites') continue;
 
                 let maqam = database[key];
@@ -349,6 +379,14 @@
                 container.appendChild(card);
             }
             populateMaqamSelect();
+            updateFavCount();
+        }
+
+        function updateFavCount() {
+            let countEl = document.getElementById('favCount');
+            if (countEl) {
+                countEl.innerText = database.favorites.waslat.length;
+            }
         }
 
         function populateMaqamSelect() {
@@ -408,11 +446,35 @@
 
                     bodyHTML += `<div class="wasla-row">
                                     <button class="wasla-tab-btn" onclick="showWaslaLyrics(${index})">🎵 ${wasla.title}</button>
+                                    <button class="${heartClass}" onclick="toggleFavorite(event, '${currentOpenMaqam}', ${index})" title="إضافة للمفضلة">❤️</button>
                                  </div>`;
                 });
                 bodyHTML += `</div>`;
             }
             document.getElementById('modalBody').innerHTML = bodyHTML;
+        }
+
+        function openFavoritesModal() {
+            currentOpenMaqam = 'favorites';
+            document.getElementById('backBtn').style.display = 'none';
+            document.getElementById('adminActionBtns').style.display = 'none';
+            document.getElementById('modalTitle').innerText = "❤️ المفضلة المحفوظة";
+
+            let maqam = database.favorites;
+            let bodyHTML = '';
+            if (maqam.waslat.length === 0) {
+                bodyHTML = '<p style="color: #888; text-align: center; padding: 40px; font-size: 16px;">لم تقم بإضافة أي وصلات إلى المفضلة بعد.</p>';
+            } else {
+                bodyHTML = '<p style="color: #d4af37; text-align: center; font-size: 15px; margin-bottom: 15px;">الوصلات المفضلة لديك:</p><div class="waslat-buttons-container">';
+                maqam.waslat.forEach((wasla, index) => {
+                    bodyHTML += `<div class="wasla-row">
+                                    <button class="wasla-tab-btn" onclick="showFavoriteLyrics(${index})">❤️ ${wasla.title}</button>
+                                 </div>`;
+                });
+                bodyHTML += `</div>`;
+            }
+            document.getElementById('modalBody').innerHTML = bodyHTML;
+            document.getElementById('waslatModal').style.display = 'flex';
         }
 
         function showWaslaLyrics(index) {
@@ -437,6 +499,23 @@
             document.getElementById('modalBody').innerHTML = lyricsHTML;
         }
 
+        function showFavoriteLyrics(index) {
+            document.getElementById('backBtn').style.display = 'block';
+            document.getElementById('adminActionBtns').style.display = 'none';
+
+            let wasla = database.favorites.waslat[index];
+            document.getElementById('modalTitle').innerText = wasla.title;
+
+            let lyricsHTML = `<div class="lyrics-box">`;
+            wasla.items.forEach(item => {
+                lyricsHTML += `<p style="white-space: pre-wrap; font-size: 16px; color: #f1f1f1; margin: 0;">${item.lyrics}</p>`;
+            });
+            lyricsHTML += `</div>`;
+            
+            document.getElementById('modalBody').innerHTML = lyricsHTML;
+        }
+
+        // دالة تفعيل القلب الأحمر لإضافة أو إزالة العنصر من المفضلة
         function toggleFavorite(event, maqamKey, index) {
             event.stopPropagation();
             let targetWasla = database[maqamKey].waslat[index];
@@ -449,79 +528,4 @@
                 alert("🗑️ تمت الإزالة من المفضلة.");
             } else {
                 database.favorites.waslat.push(JSON.parse(JSON.stringify(targetWasla)));
-                event.target.classList.add('active');
-                alert("❤️ تمت الإضافة إلى المفضلة بنجاح!");
-            }
-        }
-
-        function editCurrentWasla() {
-            if (!isAdmin) return;
-            let wasla = database[currentOpenMaqam].waslat[currentWaslaIndex];
             
-            let newTitle = prompt("تعديل الاسم:", wasla.title);
-            let newLyrics = prompt("تعديل الكلمات:", wasla.items[0].lyrics);
-
-            if (newTitle && newLyrics) {
-                wasla.title = newTitle;
-                wasla.items[0].title = newTitle;
-                wasla.items[0].lyrics = newLyrics;
-                
-                renderMaqamat();
-                showWaslaLyrics(currentWaslaIndex);
-                alert("✅ تم التعديل بنجاح!");
-            }
-        }
-
-        function deleteCurrentWasla() {
-            if (!isAdmin) return;
-            if (confirm("⚠️ هل أنت متأكد من الحذف نهائياً؟")) {
-                let deletedWasla = database[currentOpenMaqam].waslat[currentWaslaIndex];
-                database.favorites.waslat = database.favorites.waslat.filter(fav => !(fav.title === deletedWasla.title && fav.items[0].lyrics === deletedWasla.items[0].lyrics));
-                
-                database[currentOpenMaqam].waslat.splice(currentWaslaIndex, 1);
-                renderMaqamat();
-                showWaslatList();
-                alert("🗑️ تم الحذف بنجاح.");
-            }
-        }
-
-        function closeModal() {
-            document.getElementById('waslatModal').style.display = 'none';
-        }
-
-        function openAddModal() {
-            document.getElementById('addModal').style.display = 'flex';
-        }
-
-        function closeAddModal() {
-            document.getElementById('addModal').style.display = 'none';
-        }
-
-        function saveNewItem() {
-            let maqamKey = document.getElementById('addMaqamSelect').value;
-            let waslaTitle = document.getElementById('addWaslaName').value;
-            let lyrics = document.getElementById('addItemLyrics').value;
-
-            if (!waslaTitle || !lyrics) {
-                alert("⚠️ يرجى ملء اسم العنصر والكلمات على الأقل.");
-                return;
-            }
-
-            database[maqamKey].waslat.push({
-                title: waslaTitle,
-                items: [{ type: waslaTitle, title: waslaTitle, lyrics: lyrics }]
-            });
-
-            renderMaqamat();
-            closeAddModal();
-            
-            document.getElementById('addWaslaName').value = '';
-            document.getElementById('addItemLyrics').value = '';
-            
-            alert("✅ تمت الإضافة بنجاح إلى الديوان!");
-        }
-
-        window.onload = renderMaqamat;
-    </script>
-</body>
-</html>
