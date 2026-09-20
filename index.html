@@ -3,526 +3,525 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ديوان أوتاري</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@600;700;800&display=swap" rel="stylesheet">
+    <title>ديوان أوتاري - مرجع المقامات والوصلات الطربية</title>
     <style>
-        :root {
-            --bg-color: #0d0f14;
-            --card-bg: #151821;
-            --gold: #d4af37;
-            --border-gold: rgba(212, 175, 55, 0.45);
-            --text-main: #f0f2f5;
-            --text-muted: #9aa1ad;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'IBM Plex Sans Arabic', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            padding-bottom: 50px;
+            font-family: 'Tahoma', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+            direction: rtl;
         }
-
         header {
             text-align: center;
-            padding: 15px;
-            background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.2) 0%, rgba(13, 15, 20, 0) 70%);
-            border-bottom: 1px solid var(--border-gold);
-            position: relative;
+            padding: 20px;
+            background: #1f1f1f;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
         }
-
-        .logo-title {
-            font-family: 'Noto Kufi Arabic', sans-serif;
-            color: var(--gold);
-            font-size: 1.7rem;
-            font-weight: 800;
-            margin-top: 8px;
+        h1 {
+            color: #d4af37;
+            margin: 0;
         }
-
-        /* زر دخول الأدمن المخفي بركن الصفحة */
-        .secret-admin-btn {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: transparent;
-            border: 1px solid var(--border-gold);
-            color: var(--gold);
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            cursor: pointer;
-        }
-
         .container {
             max-width: 800px;
-            margin: 15px auto;
-            padding: 0 15px;
+            margin: 0 auto;
         }
-
-        /* صندوق الإضافة والتعديل (محمي تماماً) */
-        .admin-box {
-            background: #12151d;
-            border: 1.5px solid var(--gold);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 20px;
-            display: none; /* مخفي افتراضياً عن كل الناس */
-        }
-
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: var(--gold);
-            font-size: 0.9rem;
-            font-weight: 700;
-        }
-
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            background: #080a0f;
-            border: 1px solid var(--border-gold);
-            border-radius: 6px;
-            color: #fff;
-            font-size: 0.95rem;
-            outline: none;
-        }
-
-        .form-group textarea {
-            height: 100px;
-        }
-
-        .save-btn {
-            width: 100%;
-            padding: 12px;
-            background: var(--gold);
-            color: #000;
+        .btn-admin {
+            background-color: #d4af37;
+            color: #121212;
             border: none;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: 800;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 5px;
             cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
         }
-
-        .breadcrumb {
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
+        .btn-admin:hover {
+            background-color: #f39c12;
         }
-
-        .breadcrumb span {
-            color: var(--gold);
+        .admin-controls {
+            display: none;
+            margin-top: 15px;
+            background: #2b2b2b;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px dashed #d4af37;
+        }
+        .maqamat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .maqam-card {
+            background: rgba(30, 30, 30, 0.85);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #d4af37;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
             cursor: pointer;
-            text-decoration: underline;
-            font-weight: 600;
+            transition: 0.3s;
         }
-
-        /* القوائم والبطاقات */
-        .grid {
+        .maqam-card:hover {
+            background: rgba(45, 45, 45, 0.95);
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+        .maqam-card h3 {
+            margin: 0;
+            color: #ffffff;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 700px;
+            width: 100%;
+            border: 2px solid #d4af37;
+            height: 80vh;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
         }
-
-        .card {
-            background: var(--card-bg);
-            border: 1.5px solid var(--border-gold);
-            border-radius: 10px;
-            padding: 16px 20px;
+        .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            text-align: right;
-            width: 100%;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .card-main-info {
-            display: flex;
-            align-items: center;
-            flex-grow: 1;
-        }
-
-        .card-title {
-            font-size: 1.15rem;
-            font-weight: 700;
-            font-family: 'Noto Kufi Arabic', sans-serif;
-        }
-
-        .card-desc {
-            font-size: 0.85rem;
-            color: var(--gold);
-            margin-top: 4px;
-            font-weight: 600;
-        }
-
-        /* أزرار التعديل والحذف تظهر حصرياً لك عندما تسجل الدخول بلوحة التحكم */
-        .card-actions {
-            display: none; /* مخفية عن الزوار تماماً */
-            gap: 8px;
-            align-items: center;
-        }
-
-        .action-btn {
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-        }
-
-        .edit-btn {
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-            border: 1px solid rgba(59, 130, 246, 0.4);
-        }
-
-        .delete-btn {
-            background: rgba(239, 68, 68, 0.2);
-            color: #f87171;
-            border: 1px solid rgba(239, 68, 68, 0.4);
-        }
-
-        .arrow {
-            color: var(--gold);
-            font-size: 1.2rem;
-            background: rgba(212, 175, 55, 0.15);
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            border: 1px solid var(--border-gold);
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-
-        .lyrics-box {
-            background: var(--card-bg);
-            border: 1px solid var(--border-gold);
-            border-radius: 10px;
-            padding: 20px;
-        }
-
-        .lyrics-content {
-            font-size: 1.2rem;
-            line-height: 2;
-            white-space: pre-line;
-            text-align: center;
-            color: #e5e7eb;
-        }
-
-        .section-title {
-            text-align: center;
-            color: var(--gold);
-            font-family: 'Noto Kufi Arabic', sans-serif;
-            margin-bottom: 5px;
-            font-size: 1.3rem;
-        }
-
-        .section-type-badge {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-        }
-
-        .back-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--border-gold);
-            color: var(--gold);
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
+            border-bottom: 2px solid #333;
+            padding-bottom: 15px;
             margin-bottom: 15px;
         }
-
-        .hidden {
-            display: none !important;
+        .modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        .close-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .back-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            display: none;
+        }
+        .waslat-buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .wasla-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .wasla-tab-btn {
+            background: #2b2b2b;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: right;
+            flex: 1;
+            transition: 0.3s;
+        }
+        .wasla-tab-btn:hover {
+            background: #d4af37;
+            color: #121212;
+        }
+        /* زر القلب الأنيق بجانب كل وصلة */
+        .heart-btn {
+            background: #2b2b2b;
+            border: 1px solid #d4af37;
+            color: #777;
+            font-size: 20px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .heart-btn.active {
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.15);
+        }
+        .heart-btn:hover {
+            transform: scale(1.05);
+        }
+        .lyrics-box {
+            background: #121212;
+            padding: 20px;
+            border-radius: 8px;
+            border-right: 5px solid #d4af37;
+            margin-top: 15px;
+            line-height: 2;
+            font-size: 16px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            color: #d4af37;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group select, .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            background: #2b2b2b;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 5px;
+            font-family: 'Tahoma', sans-serif;
+        }
+        .admin-action-btns {
+            margin-top: 20px;
+            display: none;
+            gap: 10px;
+        }
+        .btn-edit {
+            background-color: #f39c12;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-delete {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-title">ديوان أوتاري</div>
-        <!-- زر دخول المشرف السري بأعلى الصفحة -->
-        <button class="secret-admin-btn" onclick="adminLogin()">🔑 دخول المشرف</button>
+        <h1>🎵 ديوان أوتاري 🎵</h1>
+        <p>المرجع الشامل للمقامات والوصلات الغنائية الأصيلة</p>
+        
+        <button id="loginBtn" class="btn-admin" onclick="loginAdmin()">دخول المشرف (أدمن)</button>
+        <button id="logoutBtn" class="btn-admin" style="background-color: #e74c3c; display: none;" onclick="logoutAdmin()">خروج المشرف</button>
+
+        <div id="adminPanel" class="admin-controls">
+            <h3 style="color: #d4af37; margin-top: 0;">لوحة تحكم المشرف</h3>
+            <button class="btn-admin" onclick="openAddModal()">+ إضافة إلى الديوان</button>
+        </div>
     </header>
 
     <div class="container">
+        <h2 style="text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px;">المقامات والقوائم العربية</h2>
+        <div class="maqamat-grid" id="maqamatContainer"></div>
+    </div>
 
-        <div class="breadcrumb" id="breadcrumb" onclick="showHome()">
-            <span>الرئيسية</span>
-        </div>
-
-        <!-- صندوق الإضافة والتعديل (يظهر فقط بعد إدخال كلمة السر الخاصة بك) -->
-        <div class="admin-box" id="admin-box">
-            <div style="color: var(--gold); font-weight: 700; margin-bottom: 10px;" id="form-mode-title">⚙️ لوحة الإضافة للديوان</div>
-            <form onsubmit="saveWork(event)">
-                <input type="hidden" id="edit-index" value="-1">
-                <div class="form-group">
-                    <label>المقام:</label>
-                    <select id="inp-maqam">
-                        <option value="bayati">مقام البيات</option>
-                        <option value="saba">مقام الصبا</option>
-                        <option value="nahawand">مقام النهاوند</option>
-                        <option value="ajam">مقام العجم</option>
-                        <option value="dabkat">دبكات</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>نوع العمل:</label>
-                    <select id="inp-type">
-                        <option value="موشح">موشح</option>
-                        <option value="قد">قد</option>
-                        <option value="دبكة">دبكة</option>
-                        <option value="إنشاد">إنشاد</option>
-                        <option value="قصيدة">قصيدة</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>عنوان العمل:</label>
-                    <input type="text" id="inp-title" required placeholder="مثال: يا مال الشام">
-                </div>
-                <div class="form-group">
-                    <label>الكلمات:</label>
-                    <textarea id="inp-lyrics" required placeholder="اكتب الكلمات هنا..."></textarea>
-                </div>
-                <button type="submit" class="save-btn" id="submit-btn-text">حفظ وإضافة ✓</button>
-            </form>
-        </div>
-
-        <!-- القائمة الرئيسية -->
-        <div id="screen-home" class="grid">
-            <button class="card" onclick="openMaqam('saba')">
-                <div class="card-main-info">
-                    <div>
-                        <div class="card-title">مقام الصبا</div>
-                        <div class="card-desc">نغم الشجن والعاطفة</div>
-                    </div>
-                </div>
-                <div class="arrow">←</div>
-            </button>
-
-            <button class="card" onclick="openMaqam('nahawand')">
-                <div class="card-main-info">
-                    <div>
-                        <div class="card-title">مقام النهاوند</div>
-                        <div class="card-desc">نغم الرقة والشوق</div>
-                    </div>
-                </div>
-                <div class="arrow">←</div>
-            </button>
-
-            <button class="card" onclick="openMaqam('ajam')">
-                <div class="card-main-info">
-                    <div>
-                        <div class="card-title">مقام العجم</div>
-                        <div class="card-desc">نغم البهجة والفرح</div>
-                    </div>
-                </div>
-                <div class="arrow">←</div>
-            </button>
-
-            <button class="card" onclick="openMaqam('bayati')">
-                <div class="card-main-info">
-                    <div>
-                        <div class="card-title">مقام البيات</div>
-                        <div class="card-desc">أصل التراث الشعبي</div>
-                    </div>
-                </div>
-                <div class="arrow">←</div>
-            </button>
-
-            <button class="card" onclick="openMaqam('dabkat')">
-                <div class="card-main-info">
-                    <div>
-                        <div class="card-title">🔥 دبكات وأهازيج</div>
-                        <div class="card-desc">أهازيج شعبية وعراضات</div>
-                    </div>
-                </div>
-                <div class="arrow">←</div>
-            </button>
-        </div>
-
-        <!-- شاشة الوصلات -->
-        <div id="screen-waslat" class="grid hidden"></div>
-
-        <!-- شاشة الكلمات -->
-        <div id="screen-lyrics" class="hidden">
-            <button class="back-btn" onclick="backToWaslat()">← رجوع</button>
-            <div class="lyrics-box">
-                <div class="section-title" id="lyric-title-display"></div>
-                <div class="section-type-badge" id="lyric-type-display"></div>
-                <div class="lyrics-content" id="lyric-text-display"></div>
+    <!-- نافذة القائمة الكبيرة للوصلات -->
+    <div id="waslatModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="backBtn" class="back-btn" onclick="showWaslatList()">رجوع للوصلات</button>
+                <h2 id="modalTitle" style="color: #d4af37; margin: 0;"></h2>
+                <button class="close-btn" onclick="closeModal()">إغلاق</button>
+            </div>
+            
+            <div id="modalBody" class="modal-body"></div>
+            
+            <div id="adminActionBtns" class="admin-action-btns">
+                <button class="btn-edit" onclick="editCurrentWasla()">✏️ تعديل الكلمات</button>
+                <button class="btn-delete" onclick="deleteCurrentWasla()">🗑️ حذف الوصلة</button>
             </div>
         </div>
+    </div>
 
+    <!-- نافذة نموذج الإضافة المرتبة -->
+    <div id="addModal" class="modal">
+        <div class="modal-content" style="height: auto; max-height: 85vh;">
+            <div class="modal-header">
+                <h2 style="color: #d4af37; margin: 0;">إضافة وصلة جديدة إلى الديوان</h2>
+                <button class="close-btn" onclick="closeAddModal()">إغلاق</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>1. المقام أو القائمة:</label>
+                    <select id="addMaqamSelect"></select>
+                </div>
+
+                <div class="form-group">
+                    <label>2. اسم الوصلة:</label>
+                    <input type="text" id="addWaslaName" placeholder="مثال: الوصلة الأولى، أو وصلة طرب أصيل">
+                </div>
+
+                <div class="form-group">
+                    <label>3. كلمات الوصلة:</label>
+                    <textarea id="addItemLyrics" rows="6" placeholder="اكتب كلمات الموشح أو الأغنية هنا..."></textarea>
+                </div>
+
+                <button class="btn-admin" style="width: 100%; padding: 12px; margin-top: 10px;" onclick="saveNewItem()">حفظ الإضافة في الديوان</button>
+            </div>
+        </div>
     </div>
 
     <script>
-        // قاعدة البيانات المحفوظة محلياً
-        let database = JSON.parse(localStorage.getItem('awtari_db')) || {
-            saba: { name: "مقام الصبا", items: [ { type: "موشح", title: "غضي جفونك يا عيون", lyrics: "غُضِّي جُفُونَكِ يَا عُيُونُ .. وَكَفْكِفِي دَمْعَ الهَوَانْ" } ] },
-            nahawand: { name: "مقام النهاوند", items: [ { type: "موشح", title: "يا بهجة الروح", lyrics: "يَا بَهْجَةَ الرُّوحِ جُودِي .. وَأَنْعِمِي بِالوِصَالِ" } ] },
-            ajam: { name: "مقام العجم", items: [ { type: "طقطوقة", title: "طلعت يا محلا نورها", lyrics: "طَلَعَتْ يَا مَحْلَا نُورْهَا .. شَمْسِ الشُّمُوسَة" } ] },
-            bayati: { name: "مقام البيات", items: [ { type: "قد", title: "يا مال الشام", lyrics: "يَا مَالِ الشَّامْ يَا الله يَا مَالِي .. طَالَ المَطَالْ" } ] },
-            dabkat: { name: "دبكات", items: [ { type: "دبكة", title: "يا حلالي يا مالي", lyrics: "يَا حَلَالِي يَا مَالِي .. يَا أَبُو لِحَافٍ طَيَّة" } ] }
+        let adminPasswordKey = "alfares1999"; 
+
+        let database = {
+            saba: { 
+                name: "مقام الصبا", 
+                waslat: [
+                    { title: "الوصلة الأولى", items: [{ type: "موشح", title: "غضي جفونك يا عيون", lyrics: "غُضِّي جُفُونَكِ يَا عُيُونُ .. وَكَفْكِفِي دَمْعَ الهَوَانْ" }] },
+                    { title: "الوصلة الثانية", items: [{ type: "قد", title: "يا طيرة طيري", lyrics: "يَا طَيْرَةْ طِيرِي يَا حَمَامَةْ طِيرِي .. عَالشَّامِ روحي" }] }
+                ]
+            },
+            nahawand: { 
+                name: "مقام النهاوند", 
+                waslat: [
+                    { title: "الوصلة الأولى", items: [{ type: "موشح", title: "يا بهجة الروح", lyrics: "يَا بَهْجَةَ الرُّوحِ جُودِي .. وَأَنْعِمِي بِالوِصَالِ" }] }
+                ]
+            },
+            ajam: { name: "مقام العجم", waslat: [] },
+            bayati: { name: "مقام البيات", waslat: [] },
+            sikah: { name: "مقام السيكاه", waslat: [] },
+            hijaz: { name: "مقام الحجاز", waslat: [] },
+            rast: { name: "مقام الرصد", waslat: [] },
+            kurd: { name: "مقام الكرد", waslat: [] },
+            dabkat: { name: "دبكات وأهازيج", waslat: [] },
+            qasaid: { name: "قصائد", waslat: [] },
+            favorites: { name: "❤️ المفضلة", waslat: [] } // قائمة المفضلة تعمل في الخلفية
         };
 
-        let currentMaqam = null;
         let isAdmin = false;
+        let currentOpenMaqam = null;
+        let currentWaslaIndex = null;
 
-        // كلمة المرور الجديدة الخاصة بك
-        const ADMIN_PASS = "alfares1999"; 
+        function renderMaqamat() {
+            let container = document.getElementById('maqamatContainer');
+            container.innerHTML = '';
+            
+            for (let key in database) {
+                // لا نعرض بطاقة المفضلة على الصفحة الرئيسية
+                if (key === 'favorites') continue;
 
-        function adminLogin() {
-            let pass = prompt("أدخل كلمة مرور المشرف:");
-            if(pass === ADMIN_PASS) {
+                let maqam = database[key];
+                let card = document.createElement('div');
+                card.className = 'maqam-card';
+                card.innerHTML = `<h3>${maqam.name}</h3><p style="color: #aaa; font-size: 13px; margin: 5px 0 0;">${maqam.waslat.length} عناصر متاحة</p>`;
+                card.onclick = function() {
+                    openMaqamModal(key);
+                };
+                container.appendChild(card);
+            }
+            populateMaqamSelect();
+        }
+
+        function populateMaqamSelect() {
+            let select = document.getElementById('addMaqamSelect');
+            select.innerHTML = '';
+            for (let key in database) {
+                if (key === 'favorites') continue;
+                let opt = document.createElement('option');
+                opt.value = key;
+                opt.innerText = database[key].name;
+                select.appendChild(opt);
+            }
+        }
+
+        function loginAdmin() {
+            let pass = prompt("🔐 أدخل كلمة سر المشرف:");
+            if (pass === adminPasswordKey) {
                 isAdmin = true;
-                document.getElementById('admin-box').style.display = 'block';
-                alert("✓ أهلاً بك يا أبو الفارس، تم تفعيل وضع المشرف بنجاح!");
-                if(currentMaqam) openMaqam(currentMaqam);
-            } else if(pass !== null) {
-                alert("❌ كلمة المرور غير صحيحة!");
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('loginBtn').style.display = 'none';
+                document.getElementById('logoutBtn').style.display = 'inline-block';
+                alert("✨ أهلاً بك يا أبو الفارس، تم تفعيل صلاحيات المشرف بنجاح!");
+            } else if (pass !== null) {
+                alert("❌ كلمة السر غير صحيحة.");
             }
         }
 
-        function saveWork(e) {
-            e.preventDefault();
-            if(!isAdmin) return;
+        function logoutAdmin() {
+            isAdmin = false;
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('loginBtn').style.display = 'inline-block';
+            document.getElementById('logoutBtn').style.display = 'none';
+            document.getElementById('adminActionBtns').style.display = 'none';
+            alert("🔒 تم تسجيل الخروج بنجاح.");
+        }
 
-            let mKey = document.getElementById('inp-maqam').value;
-            let type = document.getElementById('inp-type').value;
-            let title = document.getElementById('inp-title').value;
-            let lyrics = document.getElementById('inp-lyrics').value;
-            let editIdx = parseInt(document.getElementById('edit-index').value);
+        function openMaqamModal(key) {
+            currentOpenMaqam = key;
+            showWaslatList();
+            document.getElementById('waslatModal').style.display = 'flex';
+        }
 
-            if(!database[mKey]) database[mKey] = { name: mKey, items: [] };
+        function showWaslatList() {
+            document.getElementById('backBtn').style.display = 'none';
+            document.getElementById('adminActionBtns').style.display = 'none';
+            let maqam = database[currentOpenMaqam];
+            document.getElementById('modalTitle').innerText = maqam.name;
 
-            if(editIdx === -1) {
-                database[mKey].items.push({ type: type, title: title, lyrics: lyrics });
-                alert("✓ تم إضافة العمل بنجاح للديوان!");
+            let bodyHTML = '';
+            if (maqam.waslat.length === 0) {
+                bodyHTML = '<p style="color: #888; text-align: center; padding: 40px; font-size: 16px;">لا توجد عناصر مضافة هنا بعد.</p>';
             } else {
-                database[mKey].items[editIdx] = { type: type, title: title, lyrics: lyrics };
-                document.getElementById('edit-index').value = "-1";
-                document.getElementById('form-mode-title').innerText = "⚙️ لوحة الإضافة للديوان";
-                document.getElementById('submit-btn-text').innerText = "حفظ وإضافة ✓";
-                alert("✓ تم تعديل العمل بنجاح!");
-            }
+                bodyHTML = '<p style="color: #d4af37; text-align: center; font-size: 15px; margin-bottom: 15px;">اختر العنصر المطلوب لعرض كلماته:</p><div class="waslat-buttons-container">';
+                maqam.waslat.forEach((wasla, index) => {
+                    let isFav = database.favorites.waslat.some(fav => fav.title === wasla.title && fav.items[0].lyrics === wasla.items[0].lyrics);
+                    let heartClass = isFav ? "heart-btn active" : "heart-btn";
 
-            localStorage.setItem('awtari_db', JSON.stringify(database));
-
-            document.getElementById('inp-title').value = '';
-            document.getElementById('inp-lyrics').value = '';
-
-            openMaqam(mKey);
-        }
-
-        function editWork(key, idx, event) {
-            event.stopPropagation();
-            if(!isAdmin) return;
-            let item = database[key].items[idx];
-            
-            document.getElementById('inp-maqam').value = key;
-            document.getElementById('inp-type').value = item.type;
-            document.getElementById('inp-title').value = item.title;
-            document.getElementById('inp-lyrics').value = item.lyrics;
-            document.getElementById('edit-index').value = idx;
-
-            document.getElementById('form-mode-title').innerText = "✏️ تعديل العمل الحالي";
-            document.getElementById('submit-btn-text').innerText = "حفظ التعديلات ✓";
-            document.getElementById('admin-box').style.display = 'block';
-
-            showHome();
-        }
-
-        function deleteWork(key, idx, event) {
-            event.stopPropagation();
-            if(!isAdmin) return;
-            if(confirm("هل أنت متأكد من حذف هذا العمل من الديوان؟")) {
-                database[key].items.splice(idx, 1);
-                localStorage.setItem('awtari_db', JSON.stringify(database));
-                alert("🗑️ تم الحذف بنجاح!");
-                openMaqam(key);
-            }
-        }
-
-        function openMaqam(key) {
-            currentMaqam = key;
-            let maqam = database[key] || { name: key, items: [] };
-            let container = document.getElementById('screen-waslat');
-            
-            let html = '';
-            if(maqam.items.length > 0) {
-                maqam.items.forEach((item, idx) => {
-                    html += `
-                        <div class="card" onclick="openLyrics('${key}', ${idx})">
-                            <div class="card-main-info">
-                                <div>
-                                    <div class="card-title">${item.title}</div>
-                                    <div class="card-desc">[ ${item.type} ]</div>
-                                </div>
-                            </div>
-                            <div class="card-actions" style="display: ${isAdmin ? 'flex' : 'none'};">
-                                <button class="action-btn edit-btn" onclick="editWork('${key}', ${idx}, event)">تعديل</button>
-                                <button class="action-btn delete-btn" onclick="deleteWork('${key}', ${idx}, event)">حذف</button>
-                            </div>
-                            <div class="arrow">←</div>
-                        </div>
-                    `;
+                    bodyHTML += `<div class="wasla-row">
+                                    <button class="wasla-tab-btn" onclick="showWaslaLyrics(${index})">🎵 ${wasla.title}</button>
+                                 </div>`;
                 });
+                bodyHTML += `</div>`;
+            }
+            document.getElementById('modalBody').innerHTML = bodyHTML;
+        }
+
+        function showWaslaLyrics(index) {
+            currentWaslaIndex = index;
+            document.getElementById('backBtn').style.display = 'block';
+            
+            if (isAdmin) {
+                document.getElementById('adminActionBtns').style.display = 'flex';
             } else {
-                html = '<div style="text-align:center; color: var(--text-muted); padding:20px;">لا توجد أعمال مضافة هنا بعد.</div>';
+                document.getElementById('adminActionBtns').style.display = 'none';
             }
 
-            container.innerHTML = html;
-            document.getElementById('screen-home').classList.add('hidden');
-            document.getElementById('screen-waslat').classList.remove('hidden');
-            document.getElementById('screen-lyrics').classList.add('hidden');
-            document.getElementById('breadcrumb').innerHTML = `<span>الرئيسية</span> / <b>${maqam.name}</b>`;
+            let wasla = database[currentOpenMaqam].waslat[index];
+            document.getElementById('modalTitle').innerText = wasla.title;
+
+            let lyricsHTML = `<div class="lyrics-box">`;
+            wasla.items.forEach(item => {
+                lyricsHTML += `<p style="white-space: pre-wrap; font-size: 16px; color: #f1f1f1; margin: 0;">${item.lyrics}</p>`;
+            });
+            lyricsHTML += `</div>`;
+            
+            document.getElementById('modalBody').innerHTML = lyricsHTML;
         }
 
-        function openLyrics(key, idx) {
-            let item = database[key].items[idx];
-            document.getElementById('lyric-title-display').innerText = item.title;
-            document.getElementById('lyric-type-display').innerText = `تصنيف العمل: ${item.type}`;
-            document.getElementById('lyric-text-display').innerText = item.lyrics;
+        function toggleFavorite(event, maqamKey, index) {
+            event.stopPropagation();
+            let targetWasla = database[maqamKey].waslat[index];
+            
+            let favIndex = database.favorites.waslat.findIndex(fav => fav.title === targetWasla.title && fav.items[0].lyrics === targetWasla.items[0].lyrics);
 
-            document.getElementById('screen-home').classList.add('hidden');
-            document.getElementById('screen-waslat').classList.add('hidden');
-            document.getElementById('screen-lyrics').classList.remove('hidden');
+            if (favIndex > -1) {
+                database.favorites.waslat.splice(favIndex, 1);
+                event.target.classList.remove('active');
+                alert("🗑️ تمت الإزالة من المفضلة.");
+            } else {
+                database.favorites.waslat.push(JSON.parse(JSON.stringify(targetWasla)));
+                event.target.classList.add('active');
+                alert("❤️ تمت الإضافة إلى المفضلة بنجاح!");
+            }
         }
 
-        function backToWaslat() {
-            if(currentMaqam) openMaqam(currentMaqam);
-            else showHome();
+        function editCurrentWasla() {
+            if (!isAdmin) return;
+            let wasla = database[currentOpenMaqam].waslat[currentWaslaIndex];
+            
+            let newTitle = prompt("تعديل الاسم:", wasla.title);
+            let newLyrics = prompt("تعديل الكلمات:", wasla.items[0].lyrics);
+
+            if (newTitle && newLyrics) {
+                wasla.title = newTitle;
+                wasla.items[0].title = newTitle;
+                wasla.items[0].lyrics = newLyrics;
+                
+                renderMaqamat();
+                showWaslaLyrics(currentWaslaIndex);
+                alert("✅ تم التعديل بنجاح!");
+            }
         }
 
-        function showHome() {
-            document.getElementById('screen-home').classList.remove('hidden');
-            document.getElementById('screen-waslat').classList.add('hidden');
-            document.getElementById('screen-lyrics').classList.add('hidden');
-            document.getElementById('breadcrumb').innerHTML = `<span>الرئيسية</span>`;
+        function deleteCurrentWasla() {
+            if (!isAdmin) return;
+            if (confirm("⚠️ هل أنت متأكد من الحذف نهائياً؟")) {
+                let deletedWasla = database[currentOpenMaqam].waslat[currentWaslaIndex];
+                database.favorites.waslat = database.favorites.waslat.filter(fav => !(fav.title === deletedWasla.title && fav.items[0].lyrics === deletedWasla.items[0].lyrics));
+                
+                database[currentOpenMaqam].waslat.splice(currentWaslaIndex, 1);
+                renderMaqamat();
+                showWaslatList();
+                alert("🗑️ تم الحذف بنجاح.");
+            }
         }
+
+        function closeModal() {
+            document.getElementById('waslatModal').style.display = 'none';
+        }
+
+        function openAddModal() {
+            document.getElementById('addModal').style.display = 'flex';
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').style.display = 'none';
+        }
+
+        function saveNewItem() {
+            let maqamKey = document.getElementById('addMaqamSelect').value;
+            let waslaTitle = document.getElementById('addWaslaName').value;
+            let lyrics = document.getElementById('addItemLyrics').value;
+
+            if (!waslaTitle || !lyrics) {
+                alert("⚠️ يرجى ملء اسم العنصر والكلمات على الأقل.");
+                return;
+            }
+
+            database[maqamKey].waslat.push({
+                title: waslaTitle,
+                items: [{ type: waslaTitle, title: waslaTitle, lyrics: lyrics }]
+            });
+
+            renderMaqamat();
+            closeAddModal();
+            
+            document.getElementById('addWaslaName').value = '';
+            document.getElementById('addItemLyrics').value = '';
+            
+            alert("✅ تمت الإضافة بنجاح إلى الديوان!");
+        }
+
+        window.onload = renderMaqamat;
     </script>
 </body>
 </html>
